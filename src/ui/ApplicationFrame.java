@@ -9,17 +9,17 @@ import java.util.logging.Logger;
 import javax.swing.JButton;
 import javax.swing.JFrame;
 import javax.swing.JPanel;
-import persistence.BufferedImageLoader;
+import model.Image;
 
 public class ApplicationFrame extends JFrame{
 
-        private static final String root= "C:\\Users\\Public\\Pictures\\Sample Pictures";
-        private String[] images= {"chrysanthemum.jpg","desert.jpg","hydrangeas.jpg","jellyfish.jpg","koala.jpg","lighthouse.jpg","penguins.jpg","tulips.jpg"};
         private int imageIndex=-1;
         private ImagePanel imagePanel;
+        Image[] images;
 
-    public ApplicationFrame() throws IOException {
+    public ApplicationFrame(Image[] images) throws IOException {
         super("Image Viewer");
+        this.images=images;
         this.setSize(1024, 800);
         this.setLocationRelativeTo(null);
         this.setDefaultCloseOperation(EXIT_ON_CLOSE);
@@ -88,7 +88,7 @@ public class ApplicationFrame extends JFrame{
     }
 
     private void setCurrentImage(int index) throws IOException {
-        imagePanel.setImage(BufferedImageLoader.load(root+"/"+images[index]));
+        imagePanel.setImage(images[index].getBufferedImage());
     }
    
 }

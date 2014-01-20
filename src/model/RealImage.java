@@ -1,17 +1,19 @@
 package model;
 
+import java.awt.image.BufferedImage;
+
 
 public class RealImage implements Image{
     
-    private final Dimension dimension;
+    private final BufferedImage image;
 
-    public RealImage(Dimension dimension) {
-        this.dimension = dimension;
+    public RealImage(BufferedImage image) {
+        this.image = image;
     }
 
     @Override
-    public Dimension getDimension() {
-        return dimension;
+    public BufferedImage getBufferedImage() {
+        return image;
     }
 
     @Override

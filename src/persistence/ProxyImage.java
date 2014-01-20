@@ -1,6 +1,6 @@
 package persistence;
 
-import model.Dimension;
+import java.awt.image.BufferedImage;
 import model.Image;
 
 public class ProxyImage implements Image {
@@ -15,9 +15,9 @@ public class ProxyImage implements Image {
     private Image realImage;
     
     @Override
-    public Dimension getDimension() {
+    public BufferedImage getBufferedImage() {
         checkLoaded();
-        return realImage.getDimension();
+        return realImage.getBufferedImage();
     }
 
     @Override

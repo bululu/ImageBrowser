@@ -3,14 +3,16 @@ package imagebrowser;
 import control.NextImageCommand;
 import control.PrevImageCommand;
 import java.awt.event.ActionListener;
+import java.io.File;
 import java.io.IOException;
-import model.Dimension;
+import java.util.logging.Level;
+import java.util.logging.Logger;
+import javax.imageio.ImageIO;
 import model.Image;
 import model.RealImage;
 import persistence.ImageLoader;
 import persistence.ProxyImage;
 import ui.ApplicationFrame;
-import ui.ConsoleImageViewer;
 import ui.ImageViewer;
 
 public class ImageBrowser {
@@ -20,14 +22,14 @@ public class ImageBrowser {
     }
 
     private void execute() throws IOException {
-        //Image[] images= linkImages(createImages());
+        Image[] images= linkImages(createImages());
         //ImageViewer viewer= createImageViewer(images[0]);
        // createApplicationFrame(createCommands(viewer));
-        new ApplicationFrame();
+        new ApplicationFrame(images);
     }
 
     private Image[] createImages() {
-        Image[] images= new Image[5];
+        Image[] images= new Image[8];
         for (int i=0; i< images.length; i++){
             images[i]=createImage(i);
         }
@@ -35,12 +37,19 @@ public class ImageBrowser {
     }
 
     private Image createImage(final int index) {
-        final int[] sizes = new int[]{200,500,400,398,100};
+        final String root= "C:\\Users\\Public\\Pictures\\Sample Pictures\\";
+        final String[] images= {"chrysanthemum.jpg","desert.jpg","hydrangeas.jpg","jellyfish.jpg","koala.jpg","lighthouse.jpg","penguins.jpg","tulips.jpg"};
         return new ProxyImage(new ImageLoader() {
 
             @Override
-            public Image load() {
-                return new RealImage(new Dimension(sizes[index], sizes[index]));
+            public Image load() {               
+                try {
+                    return new RealImage(ImageIO.read(new File(root+images[index])));
+                } catch (IOException ex) {
+                    Logger.getLogger(ImageBrowser.class.getName()).log(Level.SEVERE, null, ex);
+                    return null;
+                }
+               
             }
         });
     }
@@ -57,17 +66,16 @@ public class ImageBrowser {
     }
 
     private ImageViewer createImageViewer(Image image) {
-        ImageViewer viewer= new ConsoleImageViewer();
+        ImageViewer viewer= new ImageViewer() {
+
+            @Override
+            public void refresh() {
+                throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+            }
+        };
         viewer.setImage(image);
         return viewer;
-    }
+    }    
     
-    private ApplicationFrame createApplicationFrame(ActionListener[] listeners) throws IOException{
-        return new ApplicationFrame();
-    }
-    
-    private ActionListener[] createCommands(ImageViewer viewer){
-        return new ActionListener[]{new PrevImageCommand(viewer), new NextImageCommand(viewer)};
-    }
             
 }
