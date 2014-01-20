@@ -13,13 +13,12 @@ import model.Image;
 
 public class ApplicationFrame extends JFrame{
 
-        private int imageIndex=-1;
         private ImagePanel imagePanel;
-        Image[] images;
+        Image image;
 
-    public ApplicationFrame(Image[] images) throws IOException {
+    public ApplicationFrame(Image image) throws IOException {
         super("Image Viewer");
-        this.images=images;
+        this.image=image;
         this.setSize(1024, 800);
         this.setLocationRelativeTo(null);
         this.setDefaultCloseOperation(EXIT_ON_CLOSE);
@@ -34,7 +33,7 @@ public class ApplicationFrame extends JFrame{
     }
 
     private JPanel CreateImagePanel() throws IOException {
-        imagePanel = new ImagePanel(images[0]);
+        imagePanel = new ImagePanel(image);
         return imagePanel;
     }
 
@@ -62,8 +61,7 @@ public class ApplicationFrame extends JFrame{
     }
     
     private void drawPrevImage() throws IOException{
-        imageIndex= (imageIndex - 1 + images.length ) % images.length;
-        setCurrentImage(imageIndex);
+        setCurrentImage(image.getPrev());
     }
 
     private JButton CreateNextButton() {
@@ -83,12 +81,12 @@ public class ApplicationFrame extends JFrame{
     }
     
     private void drawNextImage() throws IOException{
-        imageIndex= (imageIndex + 1) % images.length;
-        setCurrentImage(imageIndex);
+        setCurrentImage(image.getNext());
     }
 
-    private void setCurrentImage(int index) throws IOException {
-        imagePanel.setImage(images[index]);
+    private void setCurrentImage(Image image) throws IOException {
+        imagePanel.setImage(image);
+        this.image=image;
     }
    
 }

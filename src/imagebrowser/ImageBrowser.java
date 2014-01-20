@@ -1,8 +1,5 @@
 package imagebrowser;
 
-import control.NextImageCommand;
-import control.PrevImageCommand;
-import java.awt.event.ActionListener;
 import java.io.File;
 import java.io.IOException;
 import java.util.logging.Level;
@@ -22,7 +19,7 @@ public class ImageBrowser {
 
     private void execute() throws IOException {
         Image[] images= linkImages(createImages());
-        new ApplicationFrame(images);
+        CreateApplicationFrame(images[0]);        
     }
 
     private Image[] createImages() {
@@ -60,6 +57,10 @@ public class ImageBrowser {
             image.setPrev(prev);
         }
         return images;
+    }
+
+    private void CreateApplicationFrame(Image image) throws IOException {
+        ApplicationFrame frame= new ApplicationFrame(image);
     }
 
     
