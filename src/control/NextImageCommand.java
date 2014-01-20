@@ -1,18 +1,18 @@
 package control;
 
 import java.awt.event.ActionEvent;
-import ui.ImageViewer;
+//import ui.ImageViewer;
 
 public class NextImageCommand implements Command{
-    private final ImageViewer viewer;
+    //private final ImageViewer viewer;
 
-    public NextImageCommand(ImageViewer viewer) {
-        this.viewer = viewer;
+    public NextImageCommand() {
+  //      this.viewer = viewer;
     }
     
     @Override
     public void execute() {
-        viewer.setImage(viewer.getImage().getNext());
+      //  viewer.setImage(viewer.getImage().getNext());
     }
 
     @Override

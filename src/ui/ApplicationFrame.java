@@ -34,7 +34,7 @@ public class ApplicationFrame extends JFrame{
     }
 
     private JPanel CreateImagePanel() throws IOException {
-        imagePanel = new ImagePanel();
+        imagePanel = new ImagePanel(images[0]);
         return imagePanel;
     }
 
@@ -88,7 +88,7 @@ public class ApplicationFrame extends JFrame{
     }
 
     private void setCurrentImage(int index) throws IOException {
-        imagePanel.setImage(images[index].getBufferedImage());
+        imagePanel.setImage(images[index]);
     }
    
 }

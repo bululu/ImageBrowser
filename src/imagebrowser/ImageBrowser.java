@@ -13,7 +13,6 @@ import model.RealImage;
 import persistence.ImageLoader;
 import persistence.ProxyImage;
 import ui.ApplicationFrame;
-import ui.ImageViewer;
 
 public class ImageBrowser {
 
@@ -23,8 +22,6 @@ public class ImageBrowser {
 
     private void execute() throws IOException {
         Image[] images= linkImages(createImages());
-        //ImageViewer viewer= createImageViewer(images[0]);
-       // createApplicationFrame(createCommands(viewer));
         new ApplicationFrame(images);
     }
 
@@ -65,17 +62,6 @@ public class ImageBrowser {
         return images;
     }
 
-    private ImageViewer createImageViewer(Image image) {
-        ImageViewer viewer= new ImageViewer() {
-
-            @Override
-            public void refresh() {
-                throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
-            }
-        };
-        viewer.setImage(image);
-        return viewer;
-    }    
     
             
 }

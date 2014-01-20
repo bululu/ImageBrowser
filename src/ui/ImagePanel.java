@@ -4,26 +4,21 @@ import java.awt.Graphics;
 import java.awt.event.MouseEvent;
 import java.awt.event.MouseListener;
 import java.awt.event.MouseMotionListener;
-import java.awt.image.BufferedImage;
-import java.io.File;
 import java.io.IOException;
-import javax.imageio.ImageIO;
 import javax.swing.JPanel;
+import model.Image;
 
 class ImagePanel extends JPanel {
     
-    private BufferedImage image;
+    private Image image;
     private int initialX;
     private int offset;
-    private BufferedImage nextImage;
-    private BufferedImage prevImage;
 
-    public ImagePanel() throws IOException {
+    public ImagePanel(Image image) throws IOException {
         super();
+        this.image=image;
         this.offset=0;
         this.hookEvenets();
-        this.nextImage= ImageIO.read(new File("C:\\Users\\Public\\Pictures\\Sample Pictures\\jellyfish.jpg"));
-        this.prevImage= ImageIO.read(new File("C:\\Users\\Public\\Pictures\\Sample Pictures\\koala.jpg"));
     }
 
     private void hookEvenets() {
@@ -31,7 +26,7 @@ class ImagePanel extends JPanel {
         this.hookMouseMotionListener();
     }
     
-    public void setImage(BufferedImage image){
+    public void setImage(Image image){
         this.image=image;
         repaint();
     }
@@ -41,13 +36,13 @@ class ImagePanel extends JPanel {
         if (image == null)
             return;
         graphics.clearRect(0, 0, this.getWidth(), this.getHeight());
-        graphics.drawImage(image, offset, 0, null);
+        graphics.drawImage(image.getBufferedImage(), offset, 0, null);
         if (offset==0)
             return;
         if (offset<0)
-            graphics.drawImage(nextImage, image.getWidth()+offset, 0, null);
+            graphics.drawImage(image.getNext().getBufferedImage(), image.getBufferedImage().getWidth()+offset, 0, null);
         else
-            graphics.drawImage(prevImage, offset-image.getWidth(), 0, null);
+            graphics.drawImage(image.getPrev().getBufferedImage(), offset-image.getBufferedImage().getWidth(), 0, null);
             
     }
 
@@ -68,10 +63,10 @@ class ImagePanel extends JPanel {
             @Override
             public void mouseReleased(MouseEvent e) {
                 System.out.println("released"+e.getX());
-                if (offset > image.getWidth()/2)
-                    image=prevImage;
-                if (offset < -image.getWidth()/2)
-                    image=nextImage;
+                if (offset > image.getBufferedImage().getWidth()/2)
+                    image=image.getPrev();
+                if (offset < -image.getBufferedImage().getWidth()/2)
+                    image=image.getNext();
                 offset=0;
                 repaint();
             }
