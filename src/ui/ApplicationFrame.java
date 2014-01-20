@@ -3,9 +3,13 @@ package ui;
 import java.awt.BorderLayout;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.io.IOException;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import javax.swing.JButton;
 import javax.swing.JFrame;
 import javax.swing.JPanel;
+import persistence.BufferedImageLoader;
 
 public class ApplicationFrame extends JFrame{
 
@@ -14,7 +18,7 @@ public class ApplicationFrame extends JFrame{
         private int imageIndex=-1;
         private ImagePanel imagePanel;
 
-    public ApplicationFrame() {
+    public ApplicationFrame() throws IOException {
         super("Image Viewer");
         this.setSize(1024, 800);
         this.setLocationRelativeTo(null);
@@ -24,12 +28,12 @@ public class ApplicationFrame extends JFrame{
         this.setVisible(true);
     }
 
-    private void createComponents() {
+    private void createComponents() throws IOException {
         this.add(CreateImagePanel());
         this.add(CreateToolbar(), BorderLayout.SOUTH);
     }
 
-    private JPanel CreateImagePanel() {
+    private JPanel CreateImagePanel() throws IOException {
         imagePanel = new ImagePanel();
         return imagePanel;
     }
@@ -47,13 +51,17 @@ public class ApplicationFrame extends JFrame{
 
             @Override
             public void actionPerformed(ActionEvent e) {
-                drawPrevImage();
+                try {
+                    drawPrevImage();
+                } catch (IOException ex) {
+                    Logger.getLogger(ApplicationFrame.class.getName()).log(Level.SEVERE, null, ex);
+                }
             }
         });
         return button;
     }
     
-    private void drawPrevImage(){
+    private void drawPrevImage() throws IOException{
         imageIndex= (imageIndex - 1 + images.length ) % images.length;
         setCurrentImage(imageIndex);
     }
@@ -64,19 +72,23 @@ public class ApplicationFrame extends JFrame{
 
             @Override
             public void actionPerformed(ActionEvent e) {
-                drawNextImage();
+                try {
+                    drawNextImage();
+                } catch (IOException ex) {
+                    Logger.getLogger(ApplicationFrame.class.getName()).log(Level.SEVERE, null, ex);
+                }
             }
         });
         return button;
     }
     
-    private void drawNextImage(){
+    private void drawNextImage() throws IOException{
         imageIndex= (imageIndex + 1) % images.length;
         setCurrentImage(imageIndex);
     }
 
-    private void setCurrentImage(int index) {
-        
+    private void setCurrentImage(int index) throws IOException {
+        imagePanel.setImage(BufferedImageLoader.load(root+"/"+images[index]));
     }
    
 }

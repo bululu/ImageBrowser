@@ -3,6 +3,7 @@ package imagebrowser;
 import control.NextImageCommand;
 import control.PrevImageCommand;
 import java.awt.event.ActionListener;
+import java.io.IOException;
 import model.Dimension;
 import model.Image;
 import model.RealImage;
@@ -14,14 +15,15 @@ import ui.ImageViewer;
 
 public class ImageBrowser {
 
-    public static void main(String[] args) {
+    public static void main(String[] args) throws IOException {
         new ImageBrowser().execute();
     }
 
-    private void execute() {
-        Image[] images= linkImages(createImages());
-        ImageViewer viewer= createImageViewer(images[0]);
-        createApplicationFrame(createCommands(viewer));
+    private void execute() throws IOException {
+        //Image[] images= linkImages(createImages());
+        //ImageViewer viewer= createImageViewer(images[0]);
+       // createApplicationFrame(createCommands(viewer));
+        new ApplicationFrame();
     }
 
     private Image[] createImages() {
@@ -60,8 +62,8 @@ public class ImageBrowser {
         return viewer;
     }
     
-    private ApplicationFrame createApplicationFrame(ActionListener[] listeners){
-        return new ApplicationFrame(listeners);
+    private ApplicationFrame createApplicationFrame(ActionListener[] listeners) throws IOException{
+        return new ApplicationFrame();
     }
     
     private ActionListener[] createCommands(ImageViewer viewer){
