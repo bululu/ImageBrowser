@@ -8,7 +8,7 @@ import java.io.IOException;
 import javax.swing.JPanel;
 import model.Image;
 
-class ImagePanel extends JPanel {
+public class ImagePanel extends JPanel implements ImageViewer {
     
     private Image image;
     private int initialX;
@@ -26,9 +26,15 @@ class ImagePanel extends JPanel {
         this.hookMouseMotionListener();
     }
     
+    @Override
     public void setImage(Image image){
         this.image=image;
         repaint();
+    }
+
+    @Override
+        public Image getImage() {
+        return image;
     }
     
     @Override
@@ -100,4 +106,5 @@ class ImagePanel extends JPanel {
         });
         
     }
+
 }

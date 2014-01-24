@@ -1,40 +1,35 @@
 package ui;
 
+import control.Command;
 import java.awt.BorderLayout;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.io.IOException;
+import java.util.HashMap;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.swing.JButton;
 import javax.swing.JFrame;
 import javax.swing.JPanel;
-import model.Image;
 
 public class ApplicationFrame extends JFrame{
 
-        private ImagePanel imagePanel;
-        Image image;
+        private HashMap<String,Command> commandMap;
 
-    public ApplicationFrame(Image image) throws IOException {
+    public ApplicationFrame(HashMap commandMap, ImagePanel panel) throws IOException {
         super("Image Viewer");
-        this.image=image;
+        this.commandMap=commandMap;
         this.setSize(1024, 800);
         this.setLocationRelativeTo(null);
         this.setDefaultCloseOperation(EXIT_ON_CLOSE);
-        this.createComponents();
+        this.createComponents(panel);
         drawNextImage();
         this.setVisible(true);
     }
 
-    private void createComponents() throws IOException {
-        this.add(CreateImagePanel());
+    private void createComponents(ImagePanel panel) throws IOException {
+        this.add(panel);
         this.add(CreateToolbar(), BorderLayout.SOUTH);
-    }
-
-    private JPanel CreateImagePanel() throws IOException {
-        imagePanel = new ImagePanel(image);
-        return imagePanel;
     }
 
     private JPanel CreateToolbar() {
@@ -61,7 +56,8 @@ public class ApplicationFrame extends JFrame{
     }
     
     private void drawPrevImage() throws IOException{
-        setCurrentImage(image.getPrev());
+        Command prevc=commandMap.get("prev");
+        prevc.execute();
     }
 
     private JButton CreateNextButton() {
@@ -81,12 +77,9 @@ public class ApplicationFrame extends JFrame{
     }
     
     private void drawNextImage() throws IOException{
-        setCurrentImage(image.getNext());
+        Command nextc= commandMap.get("next");
+        nextc.execute();
     }
 
-    private void setCurrentImage(Image image) throws IOException {
-        imagePanel.setImage(image);
-        this.image=image;
-    }
    
 }

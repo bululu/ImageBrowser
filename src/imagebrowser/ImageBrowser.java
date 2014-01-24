@@ -1,7 +1,11 @@
 package imagebrowser;
 
+import control.Command;
+import control.NextImageCommand;
+import control.PrevImageCommand;
 import java.io.File;
 import java.io.IOException;
+import java.util.HashMap;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.imageio.ImageIO;
@@ -10,6 +14,8 @@ import model.RealImage;
 import persistence.ImageLoader;
 import persistence.ProxyImage;
 import ui.ApplicationFrame;
+import ui.ImagePanel;
+import ui.ImageViewer;
 
 public class ImageBrowser {
 
@@ -19,7 +25,8 @@ public class ImageBrowser {
 
     private void execute() throws IOException {
         Image[] images= linkImages(createImages());
-        CreateApplicationFrame(images[0]);        
+        ImagePanel panel= new ImagePanel(images[0]);
+        CreateApplicationFrame(createCommands(panel),panel);        
     }
 
     private Image[] createImages() {
@@ -59,8 +66,17 @@ public class ImageBrowser {
         return images;
     }
 
-    private void CreateApplicationFrame(Image image) throws IOException {
-        ApplicationFrame frame= new ApplicationFrame(image);
+    private void CreateApplicationFrame(HashMap commandMap, ImagePanel panel) throws IOException {
+        ApplicationFrame frame= new ApplicationFrame(commandMap, panel);
+    }
+
+    private HashMap createCommands(ImageViewer viewer) throws IOException {
+        HashMap<String,Command> commandMap= new HashMap<>();
+        commandMap.put("next", new NextImageCommand(viewer));
+        commandMap.put("prev", new PrevImageCommand(viewer));
+        return commandMap;
+        
+        
     }
 
     
